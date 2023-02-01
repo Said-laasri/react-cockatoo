@@ -11,7 +11,6 @@ function App() {
       </header>
       <AddTodoForm />
       <TodoList />
-     
     </div>
   );
 }
