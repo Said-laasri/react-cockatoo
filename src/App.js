@@ -4,27 +4,21 @@ import TodoList from "./Component/TodoList";
 import "./index.css";
 
 function App() {
-  const [newTodo, setNewTodo] = useState("");
-  const todoList = [
-    { id: 1, title: "Submit Assignement" },
-    { id: 2, title: "Watch video" },
-    { id: 3, title: "Read lesson" },
-  ];
+  const [todoList, setTodoList] = useState([]); // [todos, setTodos
+  const [todoTitle, setTodoTitle] = useState(""); // pass to AddTodoForm
+
+  const addTodo = (newTodo) => {
+    setTodoList([...todoList, newTodo]);
+  };
   return (
     <div style={{ textAlign: "center" }}>
       <header>
         <h1>Todo List</h1>
       </header>
-      <AddTodoForm onAddTodo={setNewTodo} />
-      <p
-        style={{
-          fontSize: "26px",
-          fontWeight: "700",
-          color: "rgb(0, 131, 17)",
-        }}
-      >
-        {newTodo}
-      </p>
+      <AddTodoForm 
+        todoTitle={todoTitle}
+        setTodoTitle={setTodoTitle}
+       onAddTodo={addTodo} />
       <TodoList todos={todoList} />
     </div>
   );
