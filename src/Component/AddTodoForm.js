@@ -1,8 +1,9 @@
 import React from "react";
+import InputWithLabel from "./InputWithLabel";
 
 function AddTodoForm(props) {
   const { onAddTodo, todoTitle, setTodoTitle } = props;
-  const handleTitleChange = (e) => {
+  const hundleTitleChange = (e) => {
     const newTodoTiltle = e.target.value;
     setTodoTitle(newTodoTiltle);
   };
@@ -14,20 +15,13 @@ function AddTodoForm(props) {
     todoTitle.trim() === ""
       ? alert("Please enter a todo title")
       : onAddTodo({ title: todoTitle, id: Date.now() });
-    setTodoTitle(" ");
+      e.target.title.value = "";
   };
 
   return (
     <div>
       <form onSubmit={hundleAddTodo}>
-        <label htmlFor="todoTitle">Title</label>
-        <input
-          onChange={handleTitleChange}
-          value={todoTitle}
-          type="text"
-          id="todoTitle"
-          name="title"
-        />
+        <InputWithLabel onChange={hundleTitleChange} value={todoTitle} >Title</InputWithLabel>
         <button type="submit">Add</button>
       </form>
     </div>

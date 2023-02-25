@@ -13,15 +13,17 @@ ul {
 
 li {
   display: flex;
-  text-align: start;
+  text-align: center;
   flex-direction: column;
   font-size: x-large;
   font-weight: 600;
   margin: 0 10px;
 }
+
 li:hover {
   background: #000;
   color: #fff;
+  margin: 5px;
 }
 
 form {
@@ -42,9 +44,11 @@ button {
   font-size: x-large;
   font-weight: 600;
 }
+
 button:hover {
   background: #fff;
   color: #000;
+  border: #000 1px solid;
 }
 
 label {
@@ -58,4 +62,18 @@ input {
   border-radius: 5px;
   font-size: x-large;
   font-weight: 600;
+  animation: borde 1s infinite;
+}
+
+@keyframes borde {
+  0% {
+    border: #000 2px solid;
+  }
+  50% {
+    border: #fff 1px solid;
+  }
+  100% {
+    border: #000 2px solid;
+  }
+  
 }
