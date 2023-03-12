@@ -75,5 +75,28 @@ input {
   100% {
     border: #000 2px solid;
   }
-  
+}
+
+.load {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  gap: 10px;
+}
+
+.load > img {
+  width: 60px;
+  height: 60px;
+  animation: load 1s infinite;
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
