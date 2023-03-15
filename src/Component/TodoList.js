@@ -7,7 +7,12 @@ const TodoList = (props) => {
     <div>
       <ul>
         {todos.map((todo) => (
-          <TodoListItem onRemoveTodo={onRemoveTodo} key={todo.id} todo={todo} />
+          <TodoListItem
+            onRemoveTodo={onRemoveTodo}
+            key={todo.id}
+            title={todo.fields.Title}
+            todo={todo}
+          />
         ))}
       </ul>
     </div>
