@@ -100,3 +100,13 @@ input {
     transform: rotate(360deg);
   }
 }
+
+.links{
+  color: #fff;
+  text-decoration-skip: none;
+}
+
+.links:hover{
+  color: #000;
+  text-decoration: underline;
+}
