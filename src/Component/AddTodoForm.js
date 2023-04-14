@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import InputWithLabel from "./InputWithLabel";
 
 function AddTodoForm(props) {
@@ -16,8 +17,8 @@ function AddTodoForm(props) {
     todoTitle.trim() === ""
       ? alert("Please enter a todo title")
       : onAddTodo({ title: todoTitle, id: Date.now() });
-      console.log(todoTitle);
-  setTodoTitle("");
+    console.log(todoTitle);
+    e.target.reset();
   };
 
   return (
@@ -33,3 +34,7 @@ function AddTodoForm(props) {
 }
 
 export default AddTodoForm;
+
+AddTodoForm.propTypes = {
+  onAddTodo: PropTypes.func.isRequired,
+};
