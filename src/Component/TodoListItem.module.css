@@ -1,3 +1,10 @@
 .ListItem {
-    color: #20059b;
+  color: #ffffff;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  display: block;
+  margin: 0 auto;
 }

@@ -5,10 +5,15 @@ import TodoList from "./TodoList";
 import { FiArrowRight } from "react-icons/fi";
 import LoadIcon from "./LoadIcon";
 import style from "./TodoApp.module.css";
-// Title sorting
-const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default?view=Grid%20view&sort[0][field]=Title&sort[0][direction]=asc`;
-// createdTime sorting
-// const url = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default?view=Grid%20view&sort[0][field]=createdTime&sort[0][direction]=asc`;
+
+// Airtable API base URL
+const airtableUrl = `https://api.airtable.com/v0/${process.env.REACT_APP_AIRTABLE_BASE_ID}/Default`;
+
+// Airtable API headers
+const airtableHeaders = {
+  Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
+  "Content-Type": "application/json",
+};
 
 function TodoApp() {
   const [todoList, setTodoList] = useState([]);
@@ -18,25 +23,17 @@ function TodoApp() {
   useEffect(() => {
     const options = {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_API_KEY}`,
-      },
+      headers: airtableHeaders,
     };
 
-    fetch(url, options)
+    fetch(
+      `${airtableUrl}?view=Grid%20view&sort[0][field]=Title&sort[0][direction]=${
+        isAscending ? "asc" : "desc"
+      }`,
+      options
+    )
       .then((response) => response.json())
       .then((response) => {
-        //sort the todo list by title and direction based on the isAscending state
-        response.records.sort((objectA, objectB) => {
-          const direction = isAscending ? 1 : -1;
-          if (objectA.fields.Title < objectB.fields.Title) {
-            return direction;
-          }
-          if (objectA.fields.Title > objectB.fields.Title) {
-            return -direction;
-          }
-          return 0;
-        });
         setTodoList(response.records);
         setIsLoading(false);
       })
@@ -52,12 +49,45 @@ function TodoApp() {
   }, [isLoading, todoList]);
 
   const removeTodo = (id) => {
-    const newTodoList = todoList.filter((todo) => todo.id !== id);
-    setTodoList(newTodoList);
+    const todoToDelete = todoList.find((todo) => todo.id === id);
+
+    const options = {
+      method: "DELETE",
+      headers: airtableHeaders,
+    };
+
+    fetch(`${airtableUrl}/${todoToDelete.id}`, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete todo");
+        }
+        const newTodoList = todoList.filter((todo) => todo.id !== id);
+        setTodoList(newTodoList);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   };
 
   const addTodo = (newTodo) => {
-    setTodoList([...todoList, newTodo]);
+    const options = {
+      method: "POST",
+      headers: airtableHeaders,
+      body: JSON.stringify({ fields: { Title: newTodo.title } }),
+    };
+
+    fetch(airtableUrl, options)
+      .then((response) => response.json())
+      .then((response) => {
+        const airtableTodo = {
+          id: response.id,
+          fields: { Title: newTodo.title },
+        };
+        setTodoList([...todoList, airtableTodo]);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   };
 
   const toggleSortOrder = () => {
@@ -69,14 +99,14 @@ function TodoApp() {
       <header>
         <h1 className={style.header}>Todo List</h1>
       </header>
-      <button onClick={toggleSortOrder}>
+      <button className={style.btn} onClick={toggleSortOrder}>
         {isAscending ? "Sort Descending" : "Sort Ascending"}
       </button>
       <AddTodoForm onAddTodo={addTodo} />
       {isLoading && <LoadIcon />}
       <TodoList onRemoveTodo={removeTodo} todos={todoList} />
       <br />
-      <button>
+      <button className={style.btn}>
         <Link className={style.links} to={"/new"}>
           New <FiArrowRight />
         </Link>
