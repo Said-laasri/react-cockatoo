@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TodoApp from "./Component/TodoApp";
+import TodoContainer from "./Component/TodoContainer";
 import NewTodo from "./Component/NewTodo";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<TodoApp />} />
+        <Route path="/" element={<TodoContainer />} />
         <Route path="/new" element={<NewTodo />} />
       </Routes>
     </BrowserRouter>

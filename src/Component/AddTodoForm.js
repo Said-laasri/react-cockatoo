@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import InputWithLabel from "./InputWithLabel";
 
-function AddTodoForm(props) {
+const AddTodoForm = (props) => {
   const [todoTitle, setTodoTitle] = useState("");
   const { onAddTodo } = props;
   const hundleTitleChange = (e) => {

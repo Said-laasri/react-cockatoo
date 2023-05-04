@@ -15,7 +15,7 @@ const airtableHeaders = {
   "Content-Type": "application/json",
 };
 
-function TodoApp() {
+const TodoContainer = () => {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAscending, setIsAscending] = useState(true);
@@ -115,4 +115,4 @@ function TodoApp() {
   );
 }
 
-export default TodoApp;
+export default TodoContainer;
